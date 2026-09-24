@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0f766e">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css">
+<title>Gram Stain Colour & Shape Reader</title>
+</head>
+<body>
+<header><div><h1>🧫 Gram Stain Reader</h1><p>Colour • Shape • Educational Report</p></div><button id="themeBtn">☾</button></header>
+<main>
+<section class="card hero"><div><span class="badge">B.Sc. MLT / M.Sc. MLT</span><h2>Gram Stain Colour & Bacterial Shape Reader</h2><p>Upload a Gram-stained microscopy image for an educational colour and morphology estimate.</p></div><div class="privacy">🔒 Image processing is local to this browser.</div></section>
+
+<section class="card">
+<div class="head"><h2>1. Upload image</h2><button id="resetBtn" class="secondary">Reset</button></div>
+<div id="dropZone" class="dropzone">
+<div class="camera">📷</div><h3>Choose or capture a Gram-stained image</h3><p>JPG, PNG or WebP</p>
+<div class="actions">
+<label class="primary btn">Upload Image<input id="fileInput" type="file" accept="image/*" hidden></label>
+<label class="secondary btn">Use Camera<input id="cameraInput" type="file" accept="image/*" capture="environment" hidden></label>
+</div><p class="small">Use a focused field with good illumination and minimal glare.</p>
+</div>
+<div id="previewPanel" class="hidden">
+<div class="toolbar"><button id="zoomOut" class="secondary">−</button><span id="zoomLabel">100%</span><button id="zoomIn" class="secondary">+</button><button id="downloadImage" class="secondary">Download Image</button></div>
+<div class="canvasWrap"><canvas id="imageCanvas"></canvas></div>
+<div class="center actions"><button id="analyzeBtn" class="primary">🔬 Analyze Image</button></div>
+</div>
+</section>
+
+<section id="qualitySection" class="card hidden">
+<div class="head"><h2>2. Image quality</h2><span id="qualityBadge" class="status">—</span></div>
+<div class="metrics"><div><b>Brightness</b><span id="brightnessValue">—</span></div><div><b>Contrast</b><span id="contrastValue">—</span></div><div><b>Saturation</b><span id="saturationValue">—</span></div></div>
+<p id="qualityMessage" class="notice">—</p>
+</section>
+
+<section id="resultSection" class="card hidden">
+<div class="head"><h2>3. Educational image analysis</h2><span class="status">Screening estimate</span></div>
+<div class="results">
+<article><div class="resultIcon">🟣</div><h3>Observed colour</h3><div id="colourResult" class="big">—</div><p id="colourInterpretation">—</p><div class="ct"><span>Colour confidence</span><b id="colourConfidenceText">0%</b></div><div class="bar"><i id="colourConfidenceBar"></i></div></article>
+<article><div class="resultIcon">🔬</div><h3>Predominant shape</h3><div id="shapeResult" class="big">—</div><p id="shapeInterpretation">—</p><div class="ct"><span>Shape confidence</span><b id="shapeConfidenceText">0%</b></div><div class="bar"><i id="shapeConfidenceBar"></i></div></article>
+</div>
+<div class="interpret"><h3>Educational interpretation</h3><p id="overallResult">—</p></div>
+<div class="warning">⚠ <b>Educational use only.</b> Colour and shape estimates may be affected by stain quality, culture age, microscope illumination, camera white balance, focus and image processing. This tool does not identify bacterial species or diagnose infection.</div>
+</section>
+
+<section class="card">
+<div class="head"><h2>4. Manual observation</h2><span class="status">Student / MLT entry</span></div>
+<div class="formgrid">
+<label>Observed Gram colour<select id="manualColour"><option value="">Select</option><option>Purple / Violet</option><option>Pink / Red</option><option>Mixed colour</option><option>Uncertain</option></select></label>
+<label>Observed bacterial shape<select id="manualShape"><option value="">Select</option><option>Cocci</option><option>Bacilli</option><option>Coccobacilli</option><option>Curved rods</option><option>Spiral forms</option><option>Mixed</option><option>Uncertain</option></select></label>
+<label>Sample / exercise ID<input id="sampleId" maxlength="40" placeholder="No patient identifiers"></label>
+<label>Observer<input id="observer" maxlength="50" placeholder="Optional"></label>
+</div>
+<p class="small">Do not enter patient names, hospital numbers, phone numbers or other identifiable information.</p>
+</section>
+
+<section class="card"><div class="head"><h2>5. Gram stain colour comparator</h2></div>
+<div class="refs">
+<div><div class="swatch purple"></div><h3>Purple / Violet</h3><b>Compatible with Gram-positive staining</b><p>Gram-positive organisms generally retain the crystal violet–iodine complex.</p></div>
+<div><div class="swatch pink"></div><h3>Pink / Red</h3><b>Compatible with Gram-negative staining</b><p>Gram-negative organisms generally take up counterstain after decolorization.</p></div>
+<div><div class="swatch mixed"></div><h3>Mixed / Uncertain</h3><b>Interpret with caution</b><p>Review stain quality, decolorization, smear thickness and image quality.</p></div>
+</div></section>
+
+<section class="card"><div class="head"><h2>6. Bacterial shape reference</h2></div>
+<div class="shapes">
+<div><span>● ● ●</span><b>Cocci</b><small>Round / spherical</small></div><div><span>▬ ▬ ▬</span><b>Bacilli</b><small>Rod-shaped</small></div><div><span>●▬ ●▬</span><b>Coccobacilli</b><small>Short rods / oval</small></div><div><span>⌒ ⌒ ⌒</span><b>Curved rods</b><small>Comma / curved</small></div><div><span>∿ ∿</span><b>Spiral forms</b><small>Spiral-like</small></div><div><span>?</span><b>Uncertain</b><small>Needs microscopy</small></div>
+</div></section>
+
+<section class="card"><div class="head"><h2>7. Educational report</h2></div>
+<label>Report comments<textarea id="comments" rows="3" placeholder="Optional educational notes"></textarea></label>
+<div class="actions"><button id="reportBtn" class="primary">Generate Report</button><button id="printBtn" class="secondary">Print / Save PDF</button><button id="copyBtn" class="secondary">Copy Report</button></div>
+<div id="reportOutput" class="report hidden"></div></section>
+
+<section class="card"><div class="head"><h2>8. Learn Gram staining</h2></div>
+<div class="steps"><div><b>1</b> Prepare smear</div><div><b>2</b> Air dry</div><div><b>3</b> Heat fix</div><div><b>4</b> Crystal violet</div><div><b>5</b> Gram iodine</div><div><b>6</b> Decolorizer</div><div><b>7</b> Counterstain</div><div><b>8</b> Oil immersion</div></div>
+<p class="notice">Gram-positive bacteria generally appear purple/violet, while Gram-negative bacteria generally appear pink/red after staining. Actual interpretation depends on proper technique and microscopy.</p></section>
+
+<section class="card"><div class="head"><h2>9. Common causes of misleading appearance</h2></div><ul class="checks"><li>Thick or uneven smear</li><li>Over-decolorization</li><li>Under-decolorization</li><li>Old culture</li><li>Incorrect staining time</li><li>Poor reagent quality</li><li>Inadequate washing</li><li>Excessive heat fixation</li><li>Poor illumination</li><li>Camera exposure / white balance</li></ul></section>
+<footer>Gram Stain Reader • Educational MLT tool • Client-side processing<br>Not a substitute for standard laboratory microscopy, QC or professional interpretation.</footer>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
